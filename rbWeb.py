@@ -301,14 +301,10 @@ class WebServer(socketserver.BaseRequestHandler):
                     -webkit-appearance: none;
                     width: 100%%;
                     height: 80px;
-                    border-radius: 5px;
+                    border-radius: 25px;
                     background: #D8D8D8;
                     outline: none;
-                    opacity: 0.7;
-                    -webkit-transition: .2s;
-                    transition: opacity .2s;
                   }
-                  .slider:hover { opacity: 1; }
                   .slider::-webkit-slider-thumb {
                     -webkit-appearance: none;
                     appearance: none;
@@ -316,14 +312,12 @@ class WebServer(socketserver.BaseRequestHandler):
                     height: 80px;
                     border-radius: 50%%;
                     background: #000000;
-                    cursor: pointer;
                   }
                   .slider::-moz-range-thumb {
                     width: 35px;
                     height: 80px;
                     border-radius: 50%%;
                     background: #000000;
-                    cursor: pointer;
                   }
                 </style>
               </head>
