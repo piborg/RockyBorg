@@ -49,8 +49,8 @@ slowFactor = 0.5                        # Speed to slow to when the drive slowly
 interval = 0.00                         # Time between updates in seconds, smaller responds faster but uses more processor time
 
 # Power settings
-voltageIn = 12.0                        # Total battery voltage to the RockyBorg
-voltageOut = 12.0                       # Maximum motor voltage
+voltageIn = 1.2 * 8                     # Total battery voltage to the RockyBorg
+voltageOut = 6.0                        # Maximum motor voltage
 
 # Set up the power limits
 if voltageOut > voltageIn:

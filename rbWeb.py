@@ -47,7 +47,7 @@ running = True
 
 # Set up the RockyBorg
 RB = RockyBorg.RockyBorg()
-#RB.i2cAddress = 0x21                  # Uncomment and change the value if you have changed the board address
+#RB.i2cAddress = 0x21                   # Uncomment and change the value if you have changed the board address
 RB.Init()
 if not RB.foundChip:
     boards = RockyBorg.ScanForRockyBorg()
@@ -69,8 +69,8 @@ RB.SetMotorsEnabled(True)
 RB.SetLed(False)
 
 # Power settings
-voltageIn = 1.2 * 10                    # Total battery voltage to the RockyBorg
-voltageOut = 12.0 * 0.95                # Maximum motor voltage, we limit it to 95% to allow the RPi to get uninterrupted power
+voltageIn = 1.2 * 8                     # Total battery voltage to the RockyBorg
+voltageOut = 6.0                        # Maximum motor voltage
 
 # Setup the power limits
 if voltageOut > voltageIn:

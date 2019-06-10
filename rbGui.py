@@ -11,6 +11,16 @@ else:
     # Python 3 only imports
     import tkinter as Tkinter
 
+# Power settings
+voltageIn = 1.2 * 8             # Total battery voltage to the RockyBorg
+voltageOut = 6.0                # Maximum motor voltage
+
+# Setup the power limits
+if voltageOut > voltageIn:
+    maxPower = 1.0
+else:
+    maxPower = voltageOut / float(voltageIn)
+
 # Setup the RockyBorg
 global RB
 RB = RockyBorg.RockyBorg()      # Create a new RockyBorg object
@@ -81,12 +91,12 @@ class RockyBorg_tk(Tkinter.Tk):
     # Called when sld1 is moved
     def sld1_move(self, value):
         global RB
-        RB.SetMotor1(float(value) / 100.0)
+        RB.SetMotor1((float(value) / 100.0) * maxPower)
 
     # Called when sld2 is moved
     def sld2_move(self, value):
         global RB
-        RB.SetMotor2(float(value) / 100.0)
+        RB.SetMotor2((float(value) / 100.0) * maxPower)
 
     # Called when sldServo is moved
     def sldServo_move(self, value):
