@@ -27,7 +27,7 @@ except ImportError:
 webPort = 80                            # Port number for the web-page, 80 is what web-pages normally use
 imageWidth = 240                        # Width of the captured image in pixels
 imageHeight = 192                       # Height of the captured image in pixels
-frameRate = 30                          # Number of images to capture per second
+frameRate = 10                          # Number of images to capture per second
 displayRate = 10                        # Number of images to request per second
 photoDirectory = '/home/pi'             # Directory to save photos to
 flippedCamera = True                    # Swap between True and False if the camera image is rotated by 180
