@@ -30,7 +30,7 @@ imageHeight = 192                       # Height of the captured image in pixels
 frameRate = 10                          # Number of images to capture per second
 displayRate = 10                        # Number of images to request per second
 photoDirectory = '/home/pi'             # Directory to save photos to
-flippedCamera = True                    # Swap between True and False if the camera image is rotated by 180
+flippedCamera = False                   # Swap between True and False if the camera image is rotated by 180
 jpegQuality = 80                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
 watchdogTimeout = 1.5                   # Time in seconds before we decide we have lost contact
 maximumWidth = 1000                     # Maximum pixel width for the web page
@@ -136,11 +136,15 @@ class StreamProcessor(threading.Thread):
                     # Read the image and save globally
                     self.stream.seek(0)
                     if flippedCamera:
-                        flippedArray = cv2.flip(self.stream.array, -1) # Flips X and Y
-                        retval, thisFrame = cv2.imencode('.jpg', flippedArray, [cv2.IMWRITE_JPEG_QUALITY, jpegQuality])
-                        del flippedArray
+                        # Rotate counter-clockwise
+                        rotatedArray = cv2.transpose(self.stream.array) # Swap X and Y
+                        rotatedArray = cv2.flip(rotatedArray, 1)        # Flip image in X
                     else:
-                        retval, thisFrame = cv2.imencode('.jpg', self.stream.array, [cv2.IMWRITE_JPEG_QUALITY, jpegQuality])
+                        # Rotate clockwise
+                        rotatedArray = cv2.flip(self.stream.array, 1)   # Flip image in X
+                        rotatedArray = cv2.transpose(rotatedArray)      # Swap X and Y
+                    retval, thisFrame = cv2.imencode('.jpg', rotatedArray, [cv2.IMWRITE_JPEG_QUALITY, jpegQuality])
+                    del rotatedArray
                     lockFrame.acquire()
                     lastFrame = thisFrame
                     lockFrame.release()
@@ -238,8 +242,8 @@ class WebServer(socketserver.BaseRequestHandler):
                 # Turning right
                 driveRight *= 1.0 - (0.5 * steering)
             # Set the outputs
-            RB.SetMotor1(driveLeft * maxPower)
-            RB.SetMotor2(driveRight * maxPower)
+            RB.SetMotor1(-driveLeft * maxPower)
+            RB.SetMotor2(+driveRight * maxPower)
             RB.SetServoPosition(steering)
             # Report the current settings
             self.sendStatus()
@@ -387,6 +391,7 @@ class WebServer(socketserver.BaseRequestHandler):
         elif getPath == '/stream':
             # Streaming frame, set a delayed refresh
             displayDelay = int(1000 / displayRate)
+            imageRatio = 100.0 * (float(imageHeight ** 2) / float(imageWidth ** 2))
             httpText = '''\
             <html>
               <head>
@@ -400,11 +405,11 @@ class WebServer(socketserver.BaseRequestHandler):
               </head>
               <body style="margin:0" onLoad="setTimeout(\'refreshImage()\', %d)">
                 <center>
-                  <img src="/cam.jpg" style="width:100%%;" name="rpicam" />
+                  <img src="/cam.jpg" style="width:%f%%;" name="rpicam" />
                 </center>
               </body>
             </html>
-            ''' % (displayDelay, displayDelay)
+            ''' % (displayDelay, displayDelay, imageRatio)
             self.sendText(httpText)
         else:
             # Unexpected page
@@ -420,7 +425,7 @@ class WebServer(socketserver.BaseRequestHandler):
         <html>
           <body style="margin:0">
             <center>
-              <table width="50%%" border="0">
+              <table width="75%%" border="0">
                 <tr>
                   <td width="33%%" align="left">Servo: %.0f %%</td>
                   <td width="33%%" align="center">Left: %.0f %%</td>
