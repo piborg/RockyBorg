@@ -1,12 +1,5 @@
 #!/usr/bin/env python
-
-###
-#
-# rbJoystick.py: a script for the RockyBorg, for motor control using a joystick.
-#
-# 2019-01-08
-#
-###
+# coding: utf-8
 
 # Load library functions we want
 import time
@@ -41,9 +34,9 @@ RB.SetMotorsEnabled(True)
 
 # Settings for the joystick
 axisUpDown = 1                          # Joystick axis to read for up / down position
-axisUpDownInverted = False              # Set this to True if up and down appear to be swapped
+axisUpDownInverted = True               # Set this to True if up and down appear to be swapped
 axisLeftRight = 3                       # Joystick axis to read for left / right position
-axisLeftRightInverted = True            # Set this to True if left and right appear to be swapped
+axisLeftRightInverted = False           # Set this to True if left and right appear to be swapped
 buttonSlow = 6                          # Joystick button number for driving slowly whilst held (L2)
 slowFactor = 0.5                        # Speed to slow to when the drive slowly button is held, e.g. 0.5 would be half speed
 interval = 0.10                         # Time between updates in seconds, smaller responds faster but uses more processor time
@@ -129,9 +122,9 @@ try:
             else:
                 leftRight = joystick.get_axis(axisLeftRight)
             # Determine the drive power levels
-            driveLeft = -upDown
-            driveRight = -upDown
-            servoPos = -leftRight
+            driveLeft = upDown
+            driveRight = upDown
+            servoPos = leftRight
             if leftRight < -0.05:
                 # Turning left
                 driveLeft *= 1.0 + (0.5 * leftRight)
@@ -143,8 +136,8 @@ try:
                 driveLeft *= slowFactor
                 driveRight *= slowFactor
             # Set the motors to the new speeds
-            RB.SetMotor1(driveRight * maxPower)
-            RB.SetMotor2(driveLeft * maxPower)
+            RB.SetMotor1(-driveLeft * maxPower)
+            RB.SetMotor2(driveRight * maxPower)
             RB.SetServoPosition(servoPos)
         # Wait for the interval period
         time.sleep(interval)
