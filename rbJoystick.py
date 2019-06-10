@@ -46,7 +46,7 @@ axisLeftRight = 3                       # Joystick axis to read for left / right
 axisLeftRightInverted = True            # Set this to True if left and right appear to be swapped
 buttonSlow = 6                          # Joystick button number for driving slowly whilst held (L2)
 slowFactor = 0.5                        # Speed to slow to when the drive slowly button is held, e.g. 0.5 would be half speed
-interval = 0.00                         # Time between updates in seconds, smaller responds faster but uses more processor time
+interval = 0.10                         # Time between updates in seconds, smaller responds faster but uses more processor time
 
 # Power settings
 voltageIn = 1.2 * 8                     # Total battery voltage to the RockyBorg
@@ -104,7 +104,7 @@ try:
         # Get the latest events from the system
         hadEvent = False
         events = pygame.event.get()
-        # Handle each event individually
+        # Check if there are any events we need to respond to
         for event in events:
             if event.type == pygame.QUIT:
                 # User exit
@@ -112,37 +112,40 @@ try:
             elif event.type == pygame.JOYBUTTONDOWN:
                 # A button on the joystick just got pushed down
                 hadEvent = True
+                break
             elif event.type == pygame.JOYAXISMOTION:
                 # A joystick has been moved
                 hadEvent = True
-            if hadEvent:
-                # Read axis positions (-1 to +1)
-                if axisUpDownInverted:
-                    upDown = -joystick.get_axis(axisUpDown)
-                else:
-                    upDown = joystick.get_axis(axisUpDown)
-                if axisLeftRightInverted:
-                    leftRight = -joystick.get_axis(axisLeftRight)
-                else:
-                    leftRight = joystick.get_axis(axisLeftRight)
-                # Determine the drive power levels
-                driveLeft = -upDown
-                driveRight = -upDown
-                servoPos = -leftRight
-                if leftRight < -0.05:
-                    # Turning left
-                    driveLeft *= 1.0 + (0.5 * leftRight)
-                elif leftRight > 0.05:
-                    # Turning right
-                    driveRight *= 1.0 - (0.5 * leftRight)
-                # Check for button presses
-                if joystick.get_button(buttonSlow):
-                    driveLeft *= slowFactor
-                    driveRight *= slowFactor
-                # Set the motors to the new speeds
-                RB.SetMotor1(driveRight * maxPower)
-                RB.SetMotor2(driveLeft * maxPower)
-                RB.SetServoPosition(servoPos)
+                break
+        # We saw at least one change, update the outputs
+        if hadEvent:
+            # Read axis positions (-1 to +1)
+            if axisUpDownInverted:
+                upDown = -joystick.get_axis(axisUpDown)
+            else:
+                upDown = joystick.get_axis(axisUpDown)
+            if axisLeftRightInverted:
+                leftRight = -joystick.get_axis(axisLeftRight)
+            else:
+                leftRight = joystick.get_axis(axisLeftRight)
+            # Determine the drive power levels
+            driveLeft = -upDown
+            driveRight = -upDown
+            servoPos = -leftRight
+            if leftRight < -0.05:
+                # Turning left
+                driveLeft *= 1.0 + (0.5 * leftRight)
+            elif leftRight > 0.05:
+                # Turning right
+                driveRight *= 1.0 - (0.5 * leftRight)
+            # Check for button presses
+            if joystick.get_button(buttonSlow):
+                driveLeft *= slowFactor
+                driveRight *= slowFactor
+            # Set the motors to the new speeds
+            RB.SetMotor1(driveRight * maxPower)
+            RB.SetMotor2(driveLeft * maxPower)
+            RB.SetServoPosition(servoPos)
         # Wait for the interval period
         time.sleep(interval)
     # Disable all drives
