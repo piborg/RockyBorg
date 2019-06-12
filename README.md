@@ -19,7 +19,7 @@ chmod +x install.sh
 This will install the RockyBorg library, the setup GUIs and all dependencies needed to run the set of examples contained here.
 
 # RockyBorg Library
-```rockyborg.py``` contains the RockyBorg library with lots of functions describing how to use the RockyBorg's motor controller. For a full breakdown of the API available please see the RockyBorg API (link coming soon).
+```RockyBorg.py``` contains the RockyBorg library with lots of functions describing how to use the RockyBorg's motor controller. For a full breakdown of the API available please see the RockyBorg API (link coming soon).
 
 # Examples
 There are several examples in this repository to give you an idea of how to use the library with hardware.
