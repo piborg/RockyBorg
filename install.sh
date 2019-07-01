@@ -5,6 +5,7 @@ DUB=`pwd`
 echo '=== Installing prerequisites ==='
 sudo apt-get update
 sudo apt-get -y install i2c-tools tix
+sudo apt-get -y install python-opencv
 sudo pip3 install opencv-python
 sudo apt-get -y install libcblas-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test
 
