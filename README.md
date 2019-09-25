@@ -13,8 +13,7 @@ Our complete [Quick Start Guide](https://www.piborg.org/blog/rockyborg-quick-sta
 ```
 git clone https://github.com/piborg/rockyborg
 cd rockyborg
-chmod +x install.sh
-./install.sh
+bash install.sh
 ```
 This will install the RockyBorg library, the setup GUIs and all dependencies needed to run the set of examples contained here.
 
