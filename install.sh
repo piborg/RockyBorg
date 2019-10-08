@@ -5,9 +5,13 @@ DUB=`pwd`
 echo '=== Installing prerequisites ==='
 sudo apt-get update
 sudo apt-get -y install i2c-tools tix
+
+# OpenCV for Python 2
 sudo apt-get -y install python-opencv
+
+# OpenCV for Python 3
 sudo pip3 install opencv-python
-sudo apt-get -y install libcblas-dev libatlas-base-dev libjasper-dev libqtgui4 libqt4-test
+sudo apt-get -y install libatlas-base-dev libjasper-dev libqtgui4 libqt4-test
 
 echo '=== Removing I2C devices from the blacklisting ==='
 sudo cp /etc/modprobe.d/raspi-blacklist.conf /etc/modprobe.d/raspi-blacklist.conf.old
