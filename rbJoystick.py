@@ -3,10 +3,10 @@
 
 # Load the libraries
 import sys
-import Gamepad
 import time
-sys.path.insert(0, "/home/pi/rockyborg")
 import RockyBorg
+sys.path.insert(0, "/home/pi/Gamepad")
+import Gamepad
 
 # Settings for the gamepad
 gamepadType = Gamepad.PS4               # Class for the gamepad (e.g. Gamepad.PS3)
