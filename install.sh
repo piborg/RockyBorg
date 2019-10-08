@@ -6,6 +6,16 @@ echo '=== Installing prerequisites ==='
 sudo apt-get update
 sudo apt-get -y install i2c-tools tix
 
+# Gamepad library
+pushd ${HOME}
+if [ -d "Gamepad" ] ; then
+	echo "Gamepad already downloaded :)"
+else
+	echo "Downloading Gamepad"
+	git clone https://github.com/piborg/Gamepad
+fi
+popd
+
 # OpenCV for Python 2
 sudo apt-get -y install python-opencv
 
