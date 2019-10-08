@@ -30,7 +30,7 @@ Control the motors and servo in the RockyBorg using a GUI with slider bars for e
 Setup the servo's movement range using a GUI with slider bar. The setup for this example is explained in our [Quick Start Guide](https://www.piborg.org/blog/rockyborg-quick-start-guide).
 
 ## ```rbJoystick.py```
-Control RockyBorg using a PS4 controller and [Pygame](https://www.pygame.org/).  It can also be easily adjusted to work with other game controllers.
+Control RockyBorg using a PS4 controller and our [Gamepad library](https://github.com/piborg/Gamepad).  It can also be easily adjusted to work with other game controllers.
 
 ## ```rbWeb.py```
 Control RockyBorg using a browser on you phone, tablet or PC via WiFi. Full tutorial is [available on our website](https://www.piborg.org/blog/build/rockyborg-build/rockyborg-web-ui).
